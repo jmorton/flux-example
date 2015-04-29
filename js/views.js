@@ -10,12 +10,16 @@ var views = {}
 document.addEventListener("DOMContentLoaded", function() {
 
   views.listTemplate = Reflect.template("ul.people", function(people) {
-    // TBD
+    while (this.firstChild) { this.removeChild(this.firstChild); }
+    for (p in people) {
+      this.appendChild(views.itemSnippet.render(people[p]));
+    }
     return this;
   });
 
   views.itemSnippet = Reflect.snippet("li.person", function(person) {
-    // TBD
+    this.querySelector(".given-name").innerHTML = person["given-name"];
+    this.querySelector(".family-name").innerHTML = person["family-name"];
     return this;
   });
 

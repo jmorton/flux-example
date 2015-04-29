@@ -14,9 +14,16 @@
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
+var jane = { "given-name": "Jane", "family-name": "Smith" };
+var john = { "given-name": "John", "family-name": "Doe" };
+
 // This is a store.  As an EventEmitter, we are able to register callbacks
 // that can be used to refresh views when application state changes.
 var PeopleStore = assign({}, EventEmitter.prototype, {
+
+  all: function() {
+    return [ jane, john ];
+  },
 
   /**
    * get people data from somewhere

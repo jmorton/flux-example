@@ -19,7 +19,6 @@ var views      = require("./views.js");
 document.addEventListener("DOMContentLoaded", function() {
   console.log("Configuring action generators");
   actions.init();
-  document.querySelector("form.editor").addEventListener("submit", actions.save);
 });
 
 /**
@@ -42,5 +41,5 @@ dispatcher.register(function(action) {
  */
 
 stores.PeopleStore.addChangeListener(function() {
-  console.log("PeopleStore change detected, update the DOM");
+  views.listTemplate.render(stores.PeopleStore.all());
 });
