@@ -5,5 +5,34 @@
   <script src="bundle.js"></script>
 </head>
 <body>
+
+<h1>Address Book</h1>
+
+<h2>People</h2>
+<ul class="people">
+  <li class="person vcard">
+    <span class="n">
+      <span class="given-name">Alice</span>
+      <span class="family-name">Smith</span>
+    </span>
+  </li>
+</ul>
+
+<h2>Editor</h2>
+<form class="editor">
+  <div>
+    <label for="given-name">Given Name</label>
+    <input type="text" name="given-name">
+  </div>
+  <div>
+    <label for="family-name">Family Name</label>
+    <input type="text" name="family-name">
+  </div>
+  <div>
+    <input type="reset" value="Reset">
+    <input type="submit" value="Save">
+  </div>
+</form>
+
 </body>
 </html>
