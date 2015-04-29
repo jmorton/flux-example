@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   views.itemSnippet = Reflect.snippet("li.person", function(person) {
-    this.querySelector(".given-name").innerHTML = person["given-name"];
-    this.querySelector(".family-name").innerHTML = person["family-name"];
+    this.querySelector(".given-name").textContent = person["given-name"];
+    this.querySelector(".family-name").textContent = person["family-name"];
     return this;
   });
 
