@@ -29,7 +29,6 @@ var PeopleStore = assign({}, EventEmitter.prototype, {
    * get people data from somewhere
    */
   load: function() {
-    console.log("Loading people data from somewhere")
     this.emit("change")
     return [];
   },

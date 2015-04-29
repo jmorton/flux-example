@@ -16,7 +16,6 @@ var actions = {
    * state, typically on page load.
    */
   init: function(event) {
-    console.log("Load action being dispatched")
     dispatcher.dispatch({
       actionType: "init"
     });

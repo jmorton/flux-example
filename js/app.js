@@ -17,7 +17,6 @@ var views      = require("./views.js");
  * [DOM events] -> [actions]
  */
 document.addEventListener("DOMContentLoaded", function() {
-  console.log("Configuring action generators");
   actions.init();
 });
 
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
  */
 
 dispatcher.register(function(action) {
-  console.log("Dispatching '%s' action", action.actionType);
   switch(action.actionType) {
     case "init":
       stores.PeopleStore.load(action);
