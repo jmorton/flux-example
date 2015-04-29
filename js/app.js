@@ -7,3 +7,40 @@
  * the code for each module (as opposed to a bunch of directories).
  *
  */
+
+var actions    = require("./actions.js");
+var dispatcher = require("./dispatcher.js");
+var stores     = require("./stores.js");
+var views      = require("./views.js");
+
+/**
+ * [DOM events] -> [actions]
+ */
+document.addEventListener("DOMContentLoaded", function() {
+  console.log("Configuring action generators");
+  actions.init();
+  document.querySelector("form.editor").addEventListener("submit", actions.save);
+});
+
+/**
+ * [dispatcher] -> [stores]
+ */
+
+dispatcher.register(function(action) {
+  console.log("Dispatching '%s' action", action.actionType);
+  switch(action.actionType) {
+    case "init":
+      stores.PeopleStore.load(action);
+      break;
+    default:
+      console.error("Dispatcher cannot handle action", action);
+  }
+});
+
+/**
+ * [stores] -> [views]
+ */
+
+stores.PeopleStore.addChangeListener(function() {
+  console.log("PeopleStore change detected, update the DOM");
+});
