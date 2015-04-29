@@ -17,20 +17,30 @@ var assign = require('object-assign');
 var jane = { "given-name": "Jane", "family-name": "Smith" };
 var john = { "given-name": "John", "family-name": "Doe" };
 
+var people_db = [];
+
 // This is a store.  As an EventEmitter, we are able to register callbacks
 // that can be used to refresh views when application state changes.
 var PeopleStore = assign({}, EventEmitter.prototype, {
 
   all: function() {
-    return [ jane, john ];
+    return people_db;
   },
 
   /**
    * get people data from somewhere
    */
   load: function() {
-    this.emit("change")
-    return [];
+    people_db.push(jane, john);
+    this.emit("change");
+  },
+
+  /**
+   * save people data to somewhere, but not really
+   */
+  save: function(action) {
+    people_db.push(action.person)
+    this.emit("change");
   },
 
   addChangeListener: function(callback) {

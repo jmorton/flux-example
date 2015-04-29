@@ -18,6 +18,10 @@ var views      = require("./views.js");
  */
 document.addEventListener("DOMContentLoaded", function() {
   actions.init();
+  document.querySelector("form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    actions.save(event);
+  });
 });
 
 /**
@@ -25,9 +29,13 @@ document.addEventListener("DOMContentLoaded", function() {
  */
 
 dispatcher.register(function(action) {
+  console.log(action);
   switch(action.actionType) {
     case "init":
       stores.PeopleStore.load(action);
+      break;
+    case "save":
+      stores.PeopleStore.save(action);
       break;
     default:
       console.error("Dispatcher cannot handle action", action);

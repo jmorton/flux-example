@@ -19,6 +19,19 @@ var actions = {
     dispatcher.dispatch({
       actionType: "init"
     });
+  },
+
+  /**
+   * Let's see if we can use this for both creating and updating people.
+   */
+  save: function(event) {
+    dispatcher.dispatch({
+      actionType: "save",
+      person: {
+        "given-name": "Bob",
+        "family-name": "Robert"
+      }
+    });
   }
 
 };
