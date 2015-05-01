@@ -38,6 +38,14 @@ var actions = {
       actionType: "save",
       person: person
     });
+  },
+
+  show: function(event) {
+    console.log(event.target);
+    dispatcher.dispatch({
+      actionType: "show",
+      person_id: event.target.getAttribute("href")
+    })
   }
 
 };

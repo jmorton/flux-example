@@ -43,6 +43,10 @@ var PeopleStore = assign({}, EventEmitter.prototype, {
     this.emit("change");
   },
 
+  show: function(action) {
+    this.emit("show");
+  },
+
   addChangeListener: function(callback) {
     this.on("change", callback);
   }

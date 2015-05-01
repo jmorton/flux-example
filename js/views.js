@@ -9,7 +9,7 @@ var views = {}
 
 document.addEventListener("DOMContentLoaded", function() {
 
-  views.listTemplate = Reflect.template("ul.people", function(people) {
+  views.listTemplate = Reflect.template(".people", function(people) {
     while (this.firstChild) { this.removeChild(this.firstChild); }
     for (p in people) {
       this.appendChild(views.itemSnippet.render(people[p]));
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
     return this;
   });
 
-  views.itemSnippet = Reflect.snippet("li.person", function(person) {
+  views.itemSnippet = Reflect.snippet(".people a", function(person) {
     this.querySelector(".given-name").textContent = person["given-name"];
     this.querySelector(".family-name").textContent = person["family-name"];
     return this;
