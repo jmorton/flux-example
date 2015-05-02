@@ -30,7 +30,6 @@ var actions = {
    * Let's see if we can use this for both creating and updating people.
    */
   save: function(event) {
-    console.log(event);
     var person = {};
     person["given-name"] = document.querySelector("input[name=given-name]").value
     person["family-name"] = document.querySelector("input[name=family-name]").value

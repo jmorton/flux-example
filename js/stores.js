@@ -27,12 +27,10 @@ exports.db = db;
 var PeopleStore = assign({}, EventEmitter.prototype, {
 
   all: function() {
-    console.log(this._people);
     return this.collection;
   },
 
   selected: function() {
-    console.log("selected: " + this.pick);
     return this.pick;
   },
 
@@ -40,10 +38,8 @@ var PeopleStore = assign({}, EventEmitter.prototype, {
    * get people data from somewhere
    */
   load: function() {
-    console.log("Loading, I'll query indexedDB!")
     var moof = this;
     db.people.toArray().then(function(results) {
-      console.log("Query finished...I promised.");
       moof.collection = results;
       moof.emit("change");
     });
@@ -53,25 +49,22 @@ var PeopleStore = assign({}, EventEmitter.prototype, {
    * save people data to somewhere, but not really
    */
   save: function(action) {
-    var we = this;
+    var store = this;
     db.people.add(action.person).then(function(results) {
-      we.load();
+      store.load();
     });
   },
 
   show: function(action) {
-    var we = this;
-    console.log(action.person_id);
+    var store = this;
     var id = Number.parseInt(action.person_id);
     db.people.where("id").equals(id).first().then(function(results) {
-      console.log("query results: " + results['id']);
-      we.pick = results;
-      we.emit("change");
+      store.pick = results;
+      store.emit("change");
     });
   },
 
   addChangeListener: function(callback) {
-    console.log("Adding a change listener. About $3.50...");
     this.on("change", callback);
   }
 

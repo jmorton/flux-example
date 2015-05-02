@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   views.formTemplate = Reflect.template("form.editor", function(person) {
-    console.log(person);
     this.querySelector("[name=given-name]").value = person['given-name'];
     this.querySelector("[name=family-name]").value = person['family-name'];
     return this;
