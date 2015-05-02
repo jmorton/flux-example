@@ -25,8 +25,15 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   views.formTemplate = Reflect.template("form.editor", function(person) {
-    this.querySelector("[name=given-name]").value = person['given-name'];
-    this.querySelector("[name=family-name]").value = person['family-name'];
+    if (person) {
+      this.querySelector("[name=id]").value = person['id'];
+      this.querySelector("[name=given-name]").value = person['given-name'];
+      this.querySelector("[name=family-name]").value = person['family-name'];
+    } else {
+      this.querySelector("[name=id]").value = "";
+      this.querySelector("[name=given-name]").value = "";
+      this.querySelector("[name=family-name]").value = "";
+    }
     return this;
   });
 

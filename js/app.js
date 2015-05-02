@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", function() {
     actions.save(event);
   });
 
+  document.querySelector("[data-action=remove]").addEventListener("click", function(event) {
+    event.preventDefault();
+    actions.remove(event);
+  })
+
 });
 
 window.addEventListener("hashchange", function(event) {
@@ -42,6 +47,9 @@ dispatcher.register(function(action) {
   switch(action.actionType) {
     case "init":
       stores.PeopleStore.load(action);
+      break;
+    case "remove":
+      stores.PeopleStore.remove(action);
       break;
     case "save":
       stores.PeopleStore.save(action);

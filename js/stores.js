@@ -34,24 +34,33 @@ var PeopleStore = assign({}, EventEmitter.prototype, {
     return this.pick;
   },
 
-  /**
-   * get people data from somewhere
-   */
   load: function() {
-    var moof = this;
+    var store = this;
     db.people.toArray().then(function(results) {
-      moof.collection = results;
-      moof.emit("change");
+      store.pick = null;
+      store.collection = results;
+      store.emit("change");
     });
   },
 
-  /**
-   * save people data to somewhere, but not really
-   */
+  remove: function(action) {
+    var store = this;
+    var person_id = action.person_id;
+    db.people.delete(person_id).then(function(results) {
+      store.pick = null;
+      store.load();
+    })
+  },
+
   save: function(action) {
     var store = this;
-    db.people.add(action.person).then(function(results) {
+    var person = action.person;
+    db.people.put(action.person).then(function(results) {
+      store.pick = results;
+      console.log(results);
       store.load();
+    }).catch(function(error) {
+      console.error(error);
     });
   },
 
