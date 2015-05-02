@@ -13,10 +13,19 @@ var dispatcher = require("./dispatcher.js");
 var stores     = require("./stores.js");
 var views      = require("./views.js");
 
+document.app = { stores: stores };
+
 /**
  * [DOM events] -> [actions]
  */
 document.addEventListener("DOMContentLoaded", function() {
+
+  // it'd be nice to look at the URL and pick the contact
+  // if there is an ID given.
+
+  // also, we need to figure out how to have "live" events
+  // without jquery
+
   actions.init();
 
   document.querySelector("form").addEventListener("submit", function(event) {
@@ -24,13 +33,17 @@ document.addEventListener("DOMContentLoaded", function() {
     actions.save(event);
   });
 
-  document.querySelector("a.person").addEventListener("click", function(event) {
+  document.querySelector("[data-action=remove]").addEventListener("click", function(event) {
     event.preventDefault();
-    actions.show(event);
-  });
+    actions.remove(event);
+  })
 
 });
 
+window.addEventListener("hashchange", function(event) {
+  event.preventDefault();
+  actions.show(event);
+});
 
 /**
  * [dispatcher] -> [stores]
@@ -41,6 +54,9 @@ dispatcher.register(function(action) {
   switch(action.actionType) {
     case "init":
       stores.PeopleStore.load(action);
+      break;
+    case "remove":
+      stores.PeopleStore.remove(action);
       break;
     case "save":
       stores.PeopleStore.save(action);
@@ -58,5 +74,7 @@ dispatcher.register(function(action) {
  */
 
 stores.PeopleStore.addChangeListener(function() {
+  console.log("Now we update the list template and form!");
   views.listTemplate.render(stores.PeopleStore.all());
+  views.formTemplate.render(stores.PeopleStore.selected());
 });

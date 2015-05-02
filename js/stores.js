@@ -11,40 +11,65 @@
  *
  */
 
+
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+var db = require("./db.js");
 
-var jane = { "given-name": "Jane", "family-name": "Smith" };
-var john = { "given-name": "John", "family-name": "Doe" };
+var jane = { "id":15, "given-name": "Jane", "family-name": "Smith" };
+var john = { "id":16, "given-name": "John", "family-name": "Doe" };
+exports.db = db;
 
-var people_db = [];
+// when the db changes, we update the app state and emit an event.
 
 // This is a store.  As an EventEmitter, we are able to register callbacks
 // that can be used to refresh views when application state changes.
 var PeopleStore = assign({}, EventEmitter.prototype, {
 
   all: function() {
-    return people_db;
+    return this.collection;
   },
 
-  /**
-   * get people data from somewhere
-   */
+  selected: function() {
+    return this.pick;
+  },
+
   load: function() {
-    people_db.push(jane, john);
-    this.emit("change");
+    var store = this;
+    db.people.toArray().then(function(results) {
+      store.pick = null;
+      store.collection = results;
+      store.emit("change");
+    });
   },
 
-  /**
-   * save people data to somewhere, but not really
-   */
+  remove: function(action) {
+    var store = this;
+    var person_id = action.person_id;
+    db.people.delete(person_id).then(function(results) {
+      store.pick = null;
+      store.load();
+    })
+  },
+
   save: function(action) {
-    people_db.push(action.person)
-    this.emit("change");
+    var store = this;
+    var person = action.person;
+    db.people.put(action.person).then(function(results) {
+      store.pick = results;
+      store.load();
+    }).catch(function(error) {
+      console.error(error);
+    });
   },
 
   show: function(action) {
-    this.emit("show");
+    var store = this;
+    var id = Number.parseInt(action.person_id);
+    db.people.where("id").equals(id).first().then(function(results) {
+      store.pick = results;
+      store.emit("change");
+    });
   },
 
   addChangeListener: function(callback) {

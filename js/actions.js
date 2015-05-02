@@ -26,14 +26,27 @@ var actions = {
     });
   },
 
+  remove: function(event) {
+    var person_id = Number.parseInt(document.querySelector("input[name=id]").value);
+    if (person_id) {
+      dispatcher.dispatch({
+        actionType: "remove",
+        person_id: person_id
+      });
+    }
+  },
+
   /**
    * Let's see if we can use this for both creating and updating people.
    */
   save: function(event) {
-    console.log(event);
     var person = {};
-    person["given-name"] = document.querySelector("input[name=given-name]").value
-    person["family-name"] = document.querySelector("input[name=family-name]").value
+    var person_id = Number.parseInt(document.querySelector("input[name=id]").value);
+    if (person_id) {
+      person["id"] = person_id;
+    }
+    person["given-name"] = document.querySelector("input[name=given-name]").value;
+    person["family-name"] = document.querySelector("input[name=family-name]").value;
     dispatcher.dispatch({
       actionType: "save",
       person: person
@@ -41,11 +54,11 @@ var actions = {
   },
 
   show: function(event) {
-    console.log(event.target);
+    var person_id = window.location.hash.slice(1);
     dispatcher.dispatch({
       actionType: "show",
-      person_id: event.target.getAttribute("href")
-    })
+      person_id: person_id
+    });
   }
 
 };

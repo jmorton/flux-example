@@ -20,11 +20,20 @@ document.addEventListener("DOMContentLoaded", function() {
   views.itemSnippet = Reflect.snippet(".people a", function(person) {
     this.querySelector(".given-name").textContent = person["given-name"];
     this.querySelector(".family-name").textContent = person["family-name"];
+    this.href = "#" + person["id"];
     return this;
   });
 
   views.formTemplate = Reflect.template("form.editor", function(person) {
-    // TBD
+    if (person) {
+      this.querySelector("[name=id]").value = person['id'];
+      this.querySelector("[name=given-name]").value = person['given-name'];
+      this.querySelector("[name=family-name]").value = person['family-name'];
+    } else {
+      this.querySelector("[name=id]").value = "";
+      this.querySelector("[name=given-name]").value = "";
+      this.querySelector("[name=family-name]").value = "";
+    }
     return this;
   });
 
