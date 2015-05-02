@@ -59,5 +59,7 @@ dispatcher.register(function(action) {
  */
 
 stores.PeopleStore.addChangeListener(function() {
+  console.log("Now we update the list template and form!");
   views.listTemplate.render(stores.PeopleStore.all());
+  views.formTemplate.render(stores.PeopleStore.selected());
 });

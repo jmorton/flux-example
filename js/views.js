@@ -20,12 +20,14 @@ document.addEventListener("DOMContentLoaded", function() {
   views.itemSnippet = Reflect.snippet(".people a", function(person) {
     this.querySelector(".given-name").textContent = person["given-name"];
     this.querySelector(".family-name").textContent = person["family-name"];
-    this.href = "#" + person["given-name"];
+    this.href = "#" + person["id"];
     return this;
   });
 
   views.formTemplate = Reflect.template("form.editor", function(person) {
-    // TBD
+    console.log(person);
+    this.querySelector("[name=given-name]").value = person['given-name'];
+    this.querySelector("[name=family-name]").value = person['family-name'];
     return this;
   });
 

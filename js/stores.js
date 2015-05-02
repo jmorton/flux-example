@@ -20,35 +20,58 @@ var jane = { "id":15, "given-name": "Jane", "family-name": "Smith" };
 var john = { "id":16, "given-name": "John", "family-name": "Doe" };
 exports.db = db;
 
+// when the db changes, we update the app state and emit an event.
+
 // This is a store.  As an EventEmitter, we are able to register callbacks
 // that can be used to refresh views when application state changes.
 var PeopleStore = assign({}, EventEmitter.prototype, {
 
   all: function() {
-    return [];
+    console.log(this._people);
+    return this.collection;
+  },
+
+  selected: function() {
+    console.log("selected: " + this.pick);
+    return this.pick;
   },
 
   /**
    * get people data from somewhere
    */
   load: function() {
-    [].push(jane, john);
-    this.emit("change");
+    console.log("Loading, I'll query indexedDB!")
+    var moof = this;
+    db.people.toArray().then(function(results) {
+      console.log("Query finished...I promised.");
+      moof.collection = results;
+      moof.emit("change");
+    });
   },
 
   /**
    * save people data to somewhere, but not really
    */
   save: function(action) {
-    [].push(action.person)
-    this.emit("change");
+    var we = this;
+    db.people.add(action.person).then(function(results) {
+      we.load();
+    });
   },
 
   show: function(action) {
-    this.emit("show");
+    var we = this;
+    console.log(action.person_id);
+    var id = Number.parseInt(action.person_id);
+    db.people.where("id").equals(id).first().then(function(results) {
+      console.log("query results: " + results['id']);
+      we.pick = results;
+      we.emit("change");
+    });
   },
 
   addChangeListener: function(callback) {
+    console.log("Adding a change listener. About $3.50...");
     this.on("change", callback);
   }
 
