@@ -11,27 +11,28 @@
  *
  */
 
+
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+var db = require("./db.js");
 
-var jane = { "given-name": "Jane", "family-name": "Smith" };
-var john = { "given-name": "John", "family-name": "Doe" };
-
-var people_db = [];
+var jane = { "id":15, "given-name": "Jane", "family-name": "Smith" };
+var john = { "id":16, "given-name": "John", "family-name": "Doe" };
+exports.db = db;
 
 // This is a store.  As an EventEmitter, we are able to register callbacks
 // that can be used to refresh views when application state changes.
 var PeopleStore = assign({}, EventEmitter.prototype, {
 
   all: function() {
-    return people_db;
+    return [];
   },
 
   /**
    * get people data from somewhere
    */
   load: function() {
-    people_db.push(jane, john);
+    [].push(jane, john);
     this.emit("change");
   },
 
@@ -39,7 +40,7 @@ var PeopleStore = assign({}, EventEmitter.prototype, {
    * save people data to somewhere, but not really
    */
   save: function(action) {
-    people_db.push(action.person)
+    [].push(action.person)
     this.emit("change");
   },
 

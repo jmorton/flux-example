@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
   views.itemSnippet = Reflect.snippet(".people a", function(person) {
     this.querySelector(".given-name").textContent = person["given-name"];
     this.querySelector(".family-name").textContent = person["family-name"];
+    this.href = "#" + person["given-name"];
     return this;
   });
 

@@ -7,9 +7,11 @@
   "license": "MIT",
   "dependencies": {
     "flux":          "^2.0.1",
-    "object-assign": "^2.0.0"
+    "object-assign": "^2.0.0",
+    "dexie":         "^1.0.4"
   },
   "devDependencies": {
+    "beefy":      "^2.1.5",
     "browserify": "^6.2.0",
     "envify":     "^3.0.0",
     "watchify":   "^2.1.1",
@@ -17,7 +19,8 @@
   },
   "scripts": {
     "start": "watchify -o bundle.js -v -d js/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > bundle.min.js"
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > bundle.min.js",
+    "serve": "beefy -o bundle.js -v -d --open --index app.html js/app.js 8765"
   },
   "browserify": {
     "transform": [

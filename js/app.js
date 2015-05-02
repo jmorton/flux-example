@@ -13,6 +13,8 @@ var dispatcher = require("./dispatcher.js");
 var stores     = require("./stores.js");
 var views      = require("./views.js");
 
+document.app = { stores: stores };
+
 /**
  * [DOM events] -> [actions]
  */
@@ -24,13 +26,12 @@ document.addEventListener("DOMContentLoaded", function() {
     actions.save(event);
   });
 
-  document.querySelector("a.person").addEventListener("click", function(event) {
-    event.preventDefault();
-    actions.show(event);
-  });
-
 });
 
+window.addEventListener("hashchange", function(event) {
+  event.preventDefault();
+  actions.show(event);
+});
 
 /**
  * [dispatcher] -> [stores]

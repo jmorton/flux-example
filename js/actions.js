@@ -41,11 +41,11 @@ var actions = {
   },
 
   show: function(event) {
-    console.log(event.target);
+    var person_id = window.location.hash.slice(1);
     dispatcher.dispatch({
       actionType: "show",
-      person_id: event.target.getAttribute("href")
-    })
+      person_id: person_id
+    });
   }
 
 };
