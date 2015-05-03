@@ -13,37 +13,17 @@ var dispatcher = require("./dispatcher.js");
 var stores     = require("./stores.js");
 var views      = require("./views.js");
 
-document.app = { stores: stores };
+document.app = { stores: stores, actions: actions };
 
 /**
  * [DOM events] -> [actions]
  */
-document.addEventListener("DOMContentLoaded", function() {
 
-  // it'd be nice to look at the URL and pick the contact
-  // if there is an ID given.
+// actions.generate() will trigger other actions -- it's a router of sorts.
+document.addEventListener("click", actions.generate);
 
-  // also, we need to figure out how to have "live" events
-  // without jquery
+document.addEventListener("DOMContentLoaded", actions.init);
 
-  actions.init();
-
-  document.querySelector("form").addEventListener("submit", function(event) {
-    event.preventDefault();
-    actions.save(event);
-  });
-
-  document.querySelector("[data-action=remove]").addEventListener("click", function(event) {
-    event.preventDefault();
-    actions.remove(event);
-  })
-
-});
-
-window.addEventListener("hashchange", function(event) {
-  event.preventDefault();
-  actions.show(event);
-});
 
 /**
  * [dispatcher] -> [stores]

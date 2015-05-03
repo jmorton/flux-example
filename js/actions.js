@@ -17,6 +17,24 @@ NodeList.prototype.map = function(step){
 var actions = {
 
   /**
+   * actUpon() is a very general action generator.  Because actions handle the
+   * extractiion of useful data out of events, this is pretty light weight.
+   * By convention, the target element for an action should have a data-action
+   * attribute.  The value is the name of the action.
+   *
+   * For example:
+   * <a href="#" data-action="show">Meow</a>
+   *
+   */
+  generate: function(event) {
+    // if (event.target.matches("[data-action]")) {
+    //  event.preventDefault();
+      var named = event.target.getAttribute("data-action");
+      actions[named].call(this, event);
+    //};
+  },
+
+  /**
    * This action runs whenever things need to be brought to the inital
    * state, typically on page load.
    */
@@ -54,7 +72,7 @@ var actions = {
   },
 
   show: function(event) {
-    var person_id = window.location.hash.slice(1);
+    var person_id = event.target.hash.slice(1);
     dispatcher.dispatch({
       actionType: "show",
       person_id: person_id
