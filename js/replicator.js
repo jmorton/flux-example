@@ -17,6 +17,7 @@
  
  // a return value provides but does not replace a pk. 
  db.people.hook("creating", function(pk, obj, tx) {
+	 // notify the API
  });
  
  // a return value replaces modifications. do not mutate mod.

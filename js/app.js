@@ -56,5 +56,15 @@ dispatcher.register(function(action) {
 stores.PeopleStore.addChangeListener(function() {
   console.log("Now we update the list template and form!");
   views.listTemplate.render(stores.PeopleStore.all());
+  // maybe this is triggered by something other than 'change'
+  // ...like 'choose'
   views.formTemplate.render(stores.PeopleStore.selected());
+});
+
+stores.PeopleStore.addChangeListener(function() {
+  // replicate
+  // do you propagate the state or the change?
+  // how does this interplay with a schema (for the db and API)?
+  // i like immutability, but does this make the schema
+  // much more difficutl to use?
 });
