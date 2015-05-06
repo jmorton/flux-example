@@ -12,12 +12,10 @@
  */
 
 
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+var EventEmitter = require("events").EventEmitter;
+var assign = require("object-assign");
 var db = require("./db.js");
 
-var jane = { "id":15, "given-name": "Jane", "family-name": "Smith" };
-var john = { "id":16, "given-name": "John", "family-name": "Doe" };
 exports.db = db;
 
 // when the db changes, we update the app state and emit an event.

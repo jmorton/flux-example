@@ -5,7 +5,7 @@ var Dexie = require("Dexie");
 var db = new Dexie("FluxExample");
 
 db.version(3).stores({
-  people: 'id++, given-name, family-name'
+  people: "id++, given-name, family-name"
 });
 db.open();
 

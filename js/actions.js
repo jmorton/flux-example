@@ -8,10 +8,10 @@
  */
 
 var dispatcher = require("./dispatcher.js");
-var assign = require('object-assign');
+var assign = require("object-assign");
 
 NodeList.prototype.map = function(step){
-    return Array.prototype.map.call(this, step);
+  return Array.prototype.map.call(this, step);
 };
 
 var actions = {
@@ -27,11 +27,14 @@ var actions = {
    *
    */
   generate: function(event) {
-    // if (event.target.matches("[data-action]")) {
-    //  event.preventDefault();
+    console.log(event);
+    if (event.target.matches("[data-action]")) {
+      event.preventDefault();
       var named = event.target.getAttribute("data-action");
-      actions[named].call(this, event);
-    //};
+      if (typeof(actions[named]) !== "undefined") {
+        actions[named].call(this, event);
+      }
+    }
   },
 
   /**
@@ -54,6 +57,12 @@ var actions = {
     }
   },
 
+  reset: function(event) {
+    dispatcher.dispatch({
+      actionType: "reset"
+    });
+  },
+
   /**
    * Let's see if we can use this for both creating and updating people.
    */
@@ -71,10 +80,10 @@ var actions = {
     });
   },
 
-  show: function(event) {
+  pick: function(event) {
     var person_id = event.target.hash.slice(1);
     dispatcher.dispatch({
-      actionType: "show",
+      actionType: "pick",
       person_id: person_id
     });
   }
