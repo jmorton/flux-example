@@ -41,8 +41,11 @@ dispatcher.register(function(action) {
     case "save":
       stores.PeopleStore.save(action);
       break;
-    case "show":
-      stores.PeopleStore.show(action);
+    case "pick":
+      stores.PeopleStore.pick(action);
+      break;
+    case "reset":
+      stores.PeopleStore.unpick();
       break;
     default:
       console.error("Dispatcher cannot handle action", action);

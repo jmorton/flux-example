@@ -29,13 +29,13 @@ var PeopleStore = assign({}, EventEmitter.prototype, {
   },
 
   selected: function() {
-    return this.pick;
+    return this.choice;
   },
 
   load: function() {
     var store = this;
     db.people.toArray().then(function(results) {
-      store.pick = null;
+      store.choice = null;
       store.collection = results;
       store.emit("change");
     });
@@ -45,27 +45,32 @@ var PeopleStore = assign({}, EventEmitter.prototype, {
     var store = this;
     var person_id = action.person_id;
     db.people.delete(person_id).then(function(results) {
-      store.pick = null;
+      store.choice = null;
       store.load();
     })
+  },
+
+  unpick: function(action) {
+    this.choice = null;
+    this.emit("change");
   },
 
   save: function(action) {
     var store = this;
     var person = action.person;
-    db.people.put(action.person).then(function(results) {
-      store.pick = results;
+    db.people.put(person).then(function(results) {
+      store.choice = results;
       store.load();
     }).catch(function(error) {
       console.error(error);
     });
   },
 
-  show: function(action) {
+  pick: function(action) {
     var store = this;
     var id = Number.parseInt(action.person_id);
     db.people.where("id").equals(id).first().then(function(results) {
-      store.pick = results;
+      store.choice = results;
       store.emit("change");
     });
   },
