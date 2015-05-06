@@ -7,36 +7,46 @@
 var Reflect = require("./reflect.js");
 var views = {}
 
-document.addEventListener("DOMContentLoaded", function() {
+views.init = function() {
 
-  views.listTemplate = Reflect.template(".people", function(people) {
+  views.list = Reflect.template(".people", function(people) {
     while (this.firstChild) { this.removeChild(this.firstChild); }
     for (p in people) {
-      this.appendChild(views.itemSnippet.render(people[p]));
+      this.appendChild(views.item.render(people[p]));
     }
     return this;
   });
 
-  views.itemSnippet = Reflect.snippet(".people a", function(person) {
+  views.item = Reflect.snippet(".people a", function(person) {
     this.querySelector(".given-name").textContent = person["given-name"];
     this.querySelector(".family-name").textContent = person["family-name"];
     this.href = "#" + person["id"];
     return this;
   });
 
-  views.formTemplate = Reflect.template("form.editor", function(person) {
+  /**
+   * Map an object's properties to form elements that have a corresponding
+   * name attribute.
+   *
+   * For example:
+   *   var person = { 'given-name': 'Alice' };
+   *   <input name="given-name" value="Alice">
+   *
+   */
+  views.form = Reflect.template("form.editor", function(person) {
+    var inputs = this.querySelectorAll("[name]");
     if (person) {
-      this.querySelector("[name=id]").value = person['id'];
-      this.querySelector("[name=given-name]").value = person['given-name'];
-      this.querySelector("[name=family-name]").value = person['family-name'];
+      for (var i = 0; i < inputs.length; ++i) {
+        inputs[i].value = person[inputs[i].name];
+      }
     } else {
-      this.querySelector("[name=id]").value = "";
-      this.querySelector("[name=given-name]").value = "";
-      this.querySelector("[name=family-name]").value = "";
+      for (var i = 0; i < inputs.length; ++i) {
+        inputs[i].value = "";
+      }
     }
     return this;
   });
 
-});
+};
 
 module.exports = views;

@@ -21,8 +21,8 @@ document.app = { stores: stores, actions: actions };
 
 // actions.generate() will trigger other actions -- it's a router of sorts.
 document.addEventListener("click", actions.generate);
-
 document.addEventListener("DOMContentLoaded", actions.init);
+document.addEventListener("DOMContentLoaded", views.init);
 
 
 /**
@@ -57,7 +57,6 @@ dispatcher.register(function(action) {
  */
 
 stores.PeopleStore.addChangeListener(function() {
-  console.log("Now we update the list template and form!");
-  views.listTemplate.render(stores.PeopleStore.all());
-  views.formTemplate.render(stores.PeopleStore.selected());
+  views.list.render(stores.PeopleStore.all());
+  views.form.render(stores.PeopleStore.selected());
 });
