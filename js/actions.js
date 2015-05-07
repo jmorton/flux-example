@@ -68,9 +68,12 @@ var actions = {
    */
   save: function(event) {
     var person = {};
-    var person_id = Number.parseInt(document.querySelector("input[name=id]").value);
-    if (person_id) {
-      person["id"] = person_id;
+    var id = document.querySelector("input[name=id]").value;
+    if (id) {
+      var person_id = Number.parseInt(id);
+      if (person_id) {
+        person["id"] = person_id;
+      }
     }
     person["given-name"] = document.querySelector("input[name=given-name]").value;
     person["family-name"] = document.querySelector("input[name=family-name]").value;
